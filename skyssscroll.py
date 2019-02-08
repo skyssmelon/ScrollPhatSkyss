@@ -1,8 +1,3 @@
-"""
-Direct copy of ansias scrollphatbus script
-Not testet yet
-"""
-
 import requests
 import signal
 import time
@@ -12,13 +7,12 @@ from scrollphathd.fonts import font3x5
 def getTime():
     r = requests.get("https://skyss.giantleap.no/public/departures?Hours=1&StopIdentifiers=12015491")
     json_result = r.json()
-    my_stops = []
     for x in json_result:
-        y = str(x["PassingTimes"][0]["DisplayTime"]).zfill(2)
-        z = str(x["PassingTimes"][0]["TripDestination"])
-        my_stops.append(y)
-        my_stops.sort()
-        str1 = ', '.join(my_stops) +', '
+        forsteDest = r.json()["PassingTimes"][0]["TripDestination"] #førstkommende avgang representert ved 0
+        nesteDest = r.json()["PassingTimes"][1]["TripDestination"] #neste avgang representert ved 1
+        forsteBuss = r.json()["PassingTimes"][0]["DisplayTime"]
+        nesteBuss = r.json()["PassingTimes"][1]["DisplayTime"]
+        str1 = (forsteDest, ' ', forsteBuss,', ', nesteDest, ' ', nesteBuss)
 
     while True:
         scrollphathd.write_string(str1, y=1, font=font3x5, brightness=0.5)
