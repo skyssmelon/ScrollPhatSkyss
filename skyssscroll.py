@@ -14,8 +14,8 @@ def getTime():
     json_result = r.json()
     my_stops = []
     for x in json_result:
-        y = str(int(x['TripDestination']/60)).zfill(2)
-        z = ' min ' + str(x['DisplayTime'])
+        y = str(x["PassingTimes"][0]["DisplayTime"]).zfill(2)
+        z = str(x["PassingTimes"][0]["TripDestination"])
         my_stops.append(y)
         my_stops.sort()
         str1 = ', '.join(my_stops) +', '
