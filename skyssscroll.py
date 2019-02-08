@@ -1,8 +1,6 @@
-# -*- coding: utf-8 -*-
 """
-Created on Mon Feb  4 14:18:57 2019
-
-@author: idarw
+Direct copy of ansias scrollphatbus script
+Not testet yet
 """
 
 import requests
