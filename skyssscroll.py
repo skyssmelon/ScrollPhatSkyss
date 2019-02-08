@@ -1,25 +1,20 @@
 import requests
-import signal
 import time
-import scrollphathd
+import scrollphathd as sphd
 from scrollphathd.fonts import font3x5
 
-def getTime():
-    r = requests.get("https://skyss.giantleap.no/public/departures?Hours=1&StopIdentifiers=12015491")
-    json_result = r.json()
-    for x in json_result:
-        forsteDest = r.json()["PassingTimes"][0]["TripDestination"] #førstkommende avgang representert ved 0
-        nesteDest = r.json()["PassingTimes"][1]["TripDestination"] #neste avgang representert ved 1
-        forsteBuss = r.json()["PassingTimes"][0]["DisplayTime"]
-        nesteBuss = r.json()["PassingTimes"][1]["DisplayTime"]
-        str1 = (forsteDest, ' ', forsteBuss,', ', nesteDest, ' ', nesteBuss)
+scrollphathd.rotate(180)
 
-    while True:
-        scrollphathd.write_string(str1, y=1, font=font3x5, brightness=0.5)
-        scrollphathd.flip(x,y)
-        scrollphathd.scroll()    
-        scrollphathd.show()
-        print(str1)
-        
+r = requests.get('https://skyss.giantleap.no/public/departures?Hours=1&StopIdentifiers=12015491') #henter ruteinfo
+
+d1 = r.json()["PassingTimes"][0]["TripDestination"] #førstkommende avgang representert ved 0
+d2 = r.json()["PassingTimes"][1]["TripDestination"] #neste avgang representert ved 1
+t1 = r.json()["PassingTimes"][0]["DisplayTime"]
+t2 = r.json()["PassingTimes"][1]["DisplayTime"]
+
+sphd.write_string(d1, ' ', t1, ',  ', d2, ' ', t2, brightness=0.3, font=font3x5)
+
 while True:
-    getTime() 
+    sphd.show()
+    sphd.scroll(1)
+    time.sleep(0.05)
