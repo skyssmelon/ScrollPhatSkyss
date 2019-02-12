@@ -1,19 +1,23 @@
+
 import requests
-import time
-import scrollphathd as sphd
+import signal
+import scrollphathd
+from scrollphathd.fonts import font3x5
 
-r = requests.get('https://skyss.giantleap.no/public/departures?Hours=1&StopIdentifiers=12015491') #henter ruteinfo
 
-d1 = r.json()["PassingTimes"][0]["TripDestination"] #førstkommende avgang representert ved 0
-d2 = r.json()["PassingTimes"][1]["TripDestination"] #neste avgang representert ved 1
-t1 = r.json()["PassingTimes"][0]["DisplayTime"]
-t2 = r.json()["PassingTimes"][1]["DisplayTime"]
+r = requests.get("https://skyss.giantleap.no/public/departures?Hours=1&StopIdentifiers=12015491")
+dest = r.json()["PassingTimes"][0]["TripDestination"]
+avgang = r.json()["PassingTimes"][0]["DisplayTime"]
+dest2 = r.json()["PassingTimes"][1]["TripDestination"]
+avgang2 = r.json()["PassingTimes"][1]["DisplayTime"]
 
-str1 = (d1, ' ', t1, ',  ', d2, ' ', t2)
+linje2 = dest + " " + avgang + ",   " + dest2 + " " + avgang2 + ",   "
 
-sphd.write_string(str1)
+    
 
 while True:
-    sphd.show()
-    sphd.scroll(1)
-    time.sleep(0.05)
+     scrollphathd.write_string(str1, y=1, font=font3x5, brightness=0.5)
+     scrollphathd.flip(x,y)
+     scrollphathd.scroll()    
+     scrollphathd.show()
+        print(linje2)
